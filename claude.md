@@ -63,10 +63,9 @@ sql-mastery-30/
 
 ## Current Status
 
-- **BRIDGE Protocol**: Grow (G) 완료 — 상세 진행 로그는 `Bridge.md` 참조
+- **BRIDGE Protocol**: Execute (E) 완료 — 상세 진행 로그는 `Bridge.md` 참조
+- **GitHub**: https://github.com/Taek-D/sql-mastery-30
 - 30개 문제: 완료 (day01~day30)
 - 10개 최적화 사례: 완료 (case01~case10, 검토/수정 완료)
 - 5개 면접 가이드: 완료 (guide01~guide05, 검토/수정 완료)
-- 샘플 데이터: 완료
-- ERD 다이어그램: 완료
-- GitHub Push: 미완료
+- 샘플 데이터, ERD, GitHub Push: 모두 완료
