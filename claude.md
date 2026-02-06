@@ -4,7 +4,7 @@
 
 **프로젝트명**: SQL Mastery 30  
 **작성일**: 2026-02-06  
-**현재 단계**: Integrate (I) 진행 중 🔄
+**현재 단계**: Develop (D) 진행 중 🔄
 
 ---
 
@@ -561,15 +561,143 @@ sql-mastery-30/
 
 ---
 
+---
+
+## I - Integrate (연결) ✅
+
+### 연결 항목
+
+이 프로젝트는 외부 API 연결이 없는 **문서 기반 프로젝트**이므로, Integrate 단계를 프로젝트 특성에 맞게 수행합니다.
+
+#### 1. PostgreSQL 설치 확인
+
+**실행 명령어**:
+```bash
+psql --version
+```
+
+**결과**: ❌ PostgreSQL 미설치
+
+**대응 방안**:
+- 프로젝트는 PostgreSQL 없이도 진행 가능
+- 스키마 파일(`.sql`)만 제공하여 사용자가 자유롭게 활용
+- 향후 필요시 PostgreSQL, BigQuery, SQLite 등에서 실행 가능
+
+---
+
+#### 2. 샘플 데이터 스키마 생성 ✅
+
+##### E-commerce 스키마 (`data/ecommerce/schema.sql`)
+
+생성 완료:
+- `users` 테이블: 사용자 정보
+- `products` 테이블: 상품 정보
+- `orders` 테이블: 주문 정보
+- `order_items` 테이블: 주문 상세 정보
+- 인덱스 5개 생성 (성능 최적화)
+
+**테스트 방법** (PostgreSQL 설치 시):
+```bash
+psql -U postgres -d mydb -f data/ecommerce/schema.sql
+```
+
+---
+
+##### Subscription App 스키마 (`data/subscription/schema.sql`)
+
+생성 완료:
+- `users` 테이블: 사용자 정보
+- `subscriptions` 테이블: 구독 정보
+- `events` 테이블: 사용자 활동 로그
+- 인덱스 6개 생성 (성능 최적화)
+
+**테스트 방법** (PostgreSQL 설치 시):
+```bash
+psql -U postgres -d mydb -f data/subscription/schema.sql
+```
+
+---
+
+#### 3. GitHub Repository 초기화 ✅
+
+**실행 명령어**:
+```bash
+git init
+git add .
+git commit -m "Initial commit: Project setup with schema and README"
+```
+
+**결과**: ✅ 성공
+
+커밋 내용:
+- `data/ecommerce/schema.sql`
+- `data/subscription/schema.sql`
+- `README.md`
+- `.gitignore`
+- 프로젝트 문서 (PRD.md, research.md, idea-definition.md, claude.md, CHANGELOG.md, Bridge.md)
+
+**커밋 해시**: `d730754`
+
+---
+
+#### 4. 기본 README.md 작성 ✅
+
+**생성 파일**: `README.md`
+
+**포함 내용**:
+- 프로젝트 소개
+- 왜 이 프로젝트인가? (기존 플랫폼 문제점)
+- 차별점 (실무 맥락 + 최적화 + 면접 대비)
+- 콘텐츠 구성 (30개 문제, 10개 최적화, 5개 면접 가이드)
+- 시작하기 (샘플 데이터 사용법)
+- 디렉토리 구조
+- 타겟 사용자
+- 학습 효과
+- 라이선스 (MIT)
+
+---
+
+#### 5. .gitignore 작성 ✅
+
+**생성 파일**: `.gitignore`
+
+**제외 항목**:
+- PostgreSQL 데이터 파일 (`*.sql~`, `*.backup`)
+- OS 파일 (`.DS_Store`, `Thumbs.db`)
+- IDE 파일 (`.vscode/`, `.idea/`)
+- Python 환경 (`__pycache__/`, `venv/`)
+- 임시 파일 (`*.tmp`, `*.log`)
+
+---
+
+### 완료 조건 체크
+
+- ⚠️ PostgreSQL 로컬 설치 (미설치, 선택 사항)
+- ✅ 샘플 데이터 스키마 생성됨
+- ✅ GitHub Repository 초기화됨
+- ✅ 기본 README.md 작성됨
+- ✅ .gitignore 작성됨
+- ✅ 초기 커밋 완료됨
+
+### 에러 및 해결 방법
+
+**에러 1**: PostgreSQL 미설치
+- **원인**: `psql` 명령어 인식 불가
+- **해결**: 프로젝트는 스키마 파일만 제공, 사용자가 자유롭게 DB 선택 가능
+- **영향**: 없음 (문서 기반 프로젝트)
+
+---
+
 ## 다음 단계
 
 ✅ **Blueprint 완료**  
 ✅ **Research 완료**  
-⏭️ **Integrate 단계로 이동 준비**
+✅ **Integrate 완료**  
+⏭️ **Develop 단계로 이동 준비**
 
-Integrate 단계에서 할 일:
-1. PostgreSQL 로컬 설치 및 연결 테스트
-2. BigQuery Sandbox 활성화
-3. 샘플 데이터 생성 (schema.sql, seed.sql)
-4. GitHub Repository 생성
-5. 기본 README.md 작성초기 구조 셋업
+Develop 단계에서 할 일:
+1. 30개 문제 작성 시작 (Day 1~10 우선)
+2. 각 문제에 대한 정답 쿼리 작성
+3. 비즈니스 맥락 및 해설 작성
+4. 예상 추가 질문 작성
+5. 문제 파일 생성 (problems/day01.md ~ day10.md)
