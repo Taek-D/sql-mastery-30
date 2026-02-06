@@ -1,11 +1,89 @@
-# SQL Mastery 30 - BRIDGE Protocol 진행 상황
+# SQL Mastery 30
+
+## Development Workflow
+
+### Project Overview
+데이터 분석가 면접 대비 30개 실무 SQL 챌린지 + 최적화 Before/After + 면접 설명 스크립트 (GitHub 포트폴리오용)
+
+### Tech Stack
+- **DB**: PostgreSQL 14+ (기본), BigQuery (클라우드), SQLite (경량 테스트)
+- **문서**: Markdown, Mermaid (ERD, Query Plan 다이어그램)
+- **버전관리**: Git, GitHub
+
+### Project Structure
+```
+sql-mastery-30/
+├── claude.md              # 이 파일 (Claude Code 설정 + BRIDGE 진행 상황)
+├── README.md              # 프로젝트 소개
+├── setup.sql              # 전체 환경 설정 스크립트
+├── data/
+│   ├── ecommerce/
+│   │   ├── schema.sql     # E-commerce DB 스키마
+│   │   └── sample_data.sql
+│   └── subscription/
+│       ├── schema.sql     # Subscription App 스키마
+│       └── sample_data.sql
+├── problems/              # 30개 SQL 문제 (day01.md ~ day30.md)
+├── optimization/          # 10개 최적화 Before/After 사례 (case01~10)
+├── interview/             # 5개 면접 설명 가이드 (guide01~05)
+└── diagrams/              # ERD 다이어그램 (Mermaid)
+```
+
+### SQL Writing Conventions
+
+**스타일**:
+- SQL 키워드는 **대문자**: `SELECT`, `FROM`, `WHERE`, `JOIN`
+- 테이블/컬럼명은 **소문자 + snake_case**: `user_id`, `order_date`
+- 들여쓰기: 4 spaces
+- 각 주요 절은 새 줄에서 시작
+
+**쿼리 작성 원칙**:
+- `SELECT *` 금지 - 필요한 컬럼만 명시
+- CTE (`WITH`) 선호, 중첩 Subquery 자제
+- 적절한 인덱스 활용 고려 (EXPLAIN ANALYZE 포함)
+- 비즈니스 맥락 주석 필수
+
+### Document Conventions
+
+**문제 파일 (problems/dayXX.md)** 필수 포함:
+1. 난이도 표시 (기초/중급/고급)
+2. 비즈니스 맥락 (실무 시나리오)
+3. 테이블 스키마
+4. 질문, 힌트, 정답 쿼리
+5. 해설 + 예상 추가 질문 & 답변
+
+**최적화 사례 (optimization/caseXX.md)** 필수 포함:
+1. Before/After 쿼리 + 실행 시간 + Scanned Data
+2. EXPLAIN ANALYZE 결과 비교
+3. 병목 원인 & 개선 포인트
+
+### DB Schemas
+
+**E-commerce**: users, products, orders, order_items, inventory
+**Subscription**: users, subscriptions, events
+
+### Prohibited
+- `SELECT *` 사용 금지
+- 실행 시간 / EXPLAIN ANALYZE 없는 최적화 사례 금지
+- "employees 테이블" 같은 추상적 비즈니스 맥락 금지
+
+### Current Status
+- BRIDGE Protocol: Deploy (D) 완료
+- 30개 문제: 완료 (day01 ~ day30)
+- 최적화 사례: 완료 (case01 ~ case10)
+- 면접 가이드: 완료 (guide01 ~ guide05)
+- 샘플 데이터: 생성 완료
+
+---
+
+# BRIDGE Protocol 진행 상황
 
 ## 📋 프로젝트 개요
 
-**프로젝트명**: SQL Mastery 30  
-**작성일**: 2026-02-06  
-**현재 단계**: Deploy (D) 준비 중 🔄
-**전체 진행률**: 90% (Develop 완료, Deploy 준비 중)
+**프로젝트명**: SQL Mastery 30
+**작성일**: 2026-02-06
+**현재 단계**: Grow (G) 진행 중 🔄
+**전체 진행률**: 95% (Deploy 완료, Grow 진행 중)
 
 ---
 
@@ -689,6 +767,80 @@ git commit -m "Initial commit: Project setup with schema and README"
 
 ---
 
+## Deploy (D) 단계 완료 ✅
+
+### 완료 항목
+1. **샘플 데이터 생성 스크립트**
+   - `data/ecommerce/sample_data.sql`: 1000명 사용자, 5000건 주문, 재고 데이터
+   - `data/subscription/sample_data.sql`: 500명 사용자, 25000개 이벤트
+   - `setup.sql`: 전체 환경 한 번에 설정
+
+2. **README.md 최종 보완**
+   - PostgreSQL 설치 가이드
+   - 샘플 데이터 설정 방법 (단계별)
+   - 학습 순서 가이드 추가
+   - 디렉토리 구조 업데이트
+
+3. **Git 버전 관리**
+   - 전체 30개 문제 커밋
+   - 샘플 데이터 스크립트 커밋
+   - README 업데이트 커밋
+
+### GitHub 배포 안내
+```bash
+# 1. GitHub에서 새 저장소 생성 (sql-mastery-30)
+
+# 2. 원격 저장소 연결
+git remote add origin https://github.com/[username]/sql-mastery-30.git
+
+# 3. Push
+git branch -M main
+git push -u origin main
+```
+
+---
+
+## G - Grow (성장) 🔄
+
+### 완료 항목
+
+1. **ERD 다이어그램 생성**
+   - `diagrams/erd_ecommerce.md`: E-commerce 스키마 ERD (Mermaid)
+   - `diagrams/erd_subscription.md`: Subscription 스키마 ERD (Mermaid)
+
+2. **콘텐츠 품질 검증**
+   - 10개 최적화 사례 전체 검토 완료
+   - 5개 면접 가이드 전체 검토 완료
+   - Critical 이슈 3건 수정:
+     - guide03.md: NTILE 정렬 방향 수정 (R:DESC, F:ASC, M:ASC)
+     - case07.md: user_segment 'active' → 'regular' (스키마 정합성)
+     - guide04.md: subscription status 'completed' → 'expired' (스키마 정합성)
+
+### 다음 할 일 (GitHub 배포 후)
+- [ ] GitHub에 Push하여 공개 배포
+- [ ] GitHub Star 목표 모니터링
+- [ ] 사용자 피드백 반영
+- [ ] 추가 문제/최적화 사례 확장 검토
+
+---
+
+## 🎉 프로젝트 완료!
+
+**SQL Mastery 30** 프로젝트가 완성되었습니다.
+
+### 최종 산출물
+- ✅ 30개 SQL 문제 (기초 10 + 중급 15 + 고급 5)
+- ✅ 샘플 데이터 생성 스크립트
+- ✅ 전체 환경 설정 가이드
+- ✅ 실무 중심 비즈니스 맥락
+- ✅ 면접 대비 예상 질문
+
+### 활용 방법
+1. **포트폴리오**: GitHub에 배포하여 면접 자료로 활용
+2. **학습**: Day 1부터 순서대로 30일 챌린지 진행
+3. **면접 준비**: 각 문제의 예상 질문으로 대비
+
+데이터 분석가 취업 준비에 도움이 되기를 바랍니다! 🚀
 ## 다음 단계
 
 ✅ **Blueprint 완료**  

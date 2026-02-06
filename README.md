@@ -34,15 +34,35 @@ SQL Mastery 30은 데이터 분석가 취업 준비생을 위한 **실무 중심
 ### 2. 10개 최적화 Before/After 사례
 
 실행 시간 10초 이상 → 1초 이하로 개선한 실제 사례:
-- SELECT * 제거
-- Subquery → CTE 변환
-- 불필요한 JOIN 제거
-- Window Function vs Self JOIN
-- (총 10개)
+
+| Case | 주제 | 개선율 |
+|------|------|--------|
+| [Case 01](./optimization/case01.md) | SELECT * 남용 제거 | 12.3초 → 0.8초 (93%) |
+| [Case 02](./optimization/case02.md) | Correlated Subquery → CTE + JOIN | 8.7초 → 1.2초 (86%) |
+| [Case 03](./optimization/case03.md) | 불필요한 JOIN 제거 | 5.4초 → 0.3초 (94%) |
+| [Case 04](./optimization/case04.md) | WHERE 절 인덱스 활용 (SARGable) | 15.2초 → 0.5초 (97%) |
+| [Case 05](./optimization/case05.md) | GROUP BY 전 필터링 (WHERE vs HAVING) | 6.8초 → 1.1초 (84%) |
+| [Case 06](./optimization/case06.md) | Window Function vs Self JOIN | 10.5초 → 0.9초 (91%) |
+| [Case 07](./optimization/case07.md) | UNION vs UNION ALL | 4.2초 → 0.6초 (86%) |
+| [Case 08](./optimization/case08.md) | EXISTS vs IN | 7.3초 → 1.5초 (79%) |
+| [Case 09](./optimization/case09.md) | Partitioning/Clustering (BigQuery) | 2.1GB → 180MB (91%) |
+| [Case 10](./optimization/case10.md) | Materialized View 활용 | 3.8초 → 0.05초 (99%) |
 
 ### 3. 5개 핵심 문제 면접 가이드
 
-면접관 앞에서 5분 내 설명하는## 🚀 시작하기
+면접관 앞에서 5분 내 설명하는 실전 스크립트:
+
+| Guide | 주제 | 핵심 SQL 개념 |
+|-------|------|---------------|
+| [Guide 01](./interview/guide01.md) | 7일 Rolling MAU | Window Function, RANGE |
+| [Guide 02](./interview/guide02.md) | 코호트 리텐션율 | Self JOIN, DATE_TRUNC, 코호트 분석 |
+| [Guide 03](./interview/guide03.md) | RFM 세그먼테이션 | NTILE, CASE, 비즈니스 세그먼트 |
+| [Guide 04](./interview/guide04.md) | Funnel Conversion Rate | 다중 CTE, 단계별 전환율 |
+| [Guide 05](./interview/guide05.md) | A/B 테스트 통계적 유의성 | Z-Test, 수학 함수 in SQL |
+
+---
+
+## 🚀 시작하기
 
 ### 1. PostgreSQL 설치 (권장)
 ```bash
@@ -120,11 +140,19 @@ sql-mastery-30/
 │   ├── day01.md             # Day 1: 월별 신규 가입자 수
 │   ├── day02.md             # Day 2: 카테고리별 매출 Top 5
 │   ├── ...
-│   ├── day25.md             # Day 25: Self JOIN 상품 추천
-│   ├── day26.md             # Day 26: Recursive CTE 조직도
 │   └── day30.md             # Day 30: 종합 대시보드 KPI
+├── optimization/             # 10개 최적화 Before/After 사례
+│   ├── case01.md            # SELECT * 남용 제거
+│   ├── case02.md            # Subquery → CTE 변환
+│   ├── ...
+│   └── case10.md            # Materialized View 활용
+├── interview/                # 5개 면접 설명 가이드
+│   ├── guide01.md           # 7일 Rolling MAU
+│   ├── guide02.md           # 코호트 리텐션율
+│   ├── ...
+│   └── guide05.md           # A/B 테스트 유의성 검증
 └── solutions/ (Optional)     # 개인 정답 보관용 폴더
-```       # ERD, Query Plan
+```
 
 ---
 

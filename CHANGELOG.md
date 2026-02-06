@@ -54,19 +54,22 @@
   - README.md (프로젝트 소개, 사용법, 디렉토리 구조)
   - .gitignore (PostgreSQL, OS, IDE, Python 파일 제외)
 
-## [2026-02-06] - Develop 단계 진행 중 (100% 완료)
+## [2026-02-06] - Deploy 단계 진행 중
 
-### Develop 단계 완료 ✅
-- **Day 1-30 SQL 문제 작성 완료**
-  - **기초 (Day 1-10)**: GROUP BY, JOIN, 기본 집계 함수, 서브쿼리
-  - **중급 (Day 11-25)**: Window Function, Self JOIN, 퍼널 분석, RFM, Cohort 분석
-  - **고급 (Day 26-30)**: Recursive CTE, Growth Accounting, Moving Average, 종합 대시보드
-  - 각 문제별 비즈니스 맥락, 정답 쿼리, 상세 해설, 예상 면접 질문 포함
-  - 실무 중심 문제: 에이블리, 토스, 쿠팡, 라프텔, 넷플릭스 등 기업 사례
-- **전체 진행률: 100% (30/30)**
+### Deploy 단계 완료 ✅
+- **샘플 데이터 생성 스크립트 작성**
+  - `data/ecommerce/sample_data.sql`: 1000명 사용자, 5000건 주문
+  - `data/subscription/sample_data.sql`: 500명 사용자, 25000개 이벤트
+  - `setup.sql`: 전체 환경 한 번에 설정하는 통합 스크립트
+- **README.md 최종 보완**
+  - 샘플 데이터 설정 방법 추가
+  - 디렉토리 구조 업데이트
+  - 학습 순서 가이드 추가
+- **Git 커밋**
+  - 샘플 데이터 스크립트, README 업데이트
 
 ### 다음 단계
-- **Deploy (D) 단계**: GitHub 배포, README 최종 수정, 샘플 데이터 생성
+- GitHub 원격 저장소 생성 및 푸시
 
 - **Git 커밋**
   - 커밋 메시지: "feat: Add Day 1-3 SQL problems (basic level)"
