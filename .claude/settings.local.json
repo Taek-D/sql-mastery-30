@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'File modified' || true"
+            "command": "echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.file_path // empty' | grep -qE '\\.(sql|md)$' && echo 'CHECK: SQL/MD file modified - verify schema constraints and conventions' || true"
           }
         ]
       }
@@ -20,7 +20,10 @@
       "Bash(psql *)",
       "Bash(sqlite3 *)"
     ],
-    "deny": [],
+    "deny": [
+      "Read(.env*)",
+      "Bash(rm -rf *)"
+    ],
     "ask": []
   }
 }
