@@ -42,48 +42,89 @@ SQL Mastery 30은 데이터 분석가 취업 준비생을 위한 **실무 중심
 
 ### 3. 5개 핵심 문제 면접 가이드
 
-면접관 앞에서 5분 내 설명하는 연습:
-- 7일 Rolling MAU
-- 코호트 리텐션율
-- RFM 세그먼테이션
-- Funnel Conversion Rate
-- A/B 테스트 유의성 검증
+면접관 앞에서 5분 내 설명하는## 🚀 시작하기
 
----
-
-## 🚀 시작하기
-
-### 샘플 데이터 사용
-
+### 1. PostgreSQL 설치 (권장)
 ```bash
-# PostgreSQL 환경에서
-psql -U postgres -d mydb -f data/ecommerce/schema.sql
+# macOS
+brew install postgresql@14
 
-# SQLite 환경에서
-sqlite3 sample.db < data/ecommerce/schema.sql
+# Ubuntu/Debian
+sudo apt-get install postgresql-14
+
+# Windows
+# https://www.postgresql.org/download/windows/
 ```
 
-### 문제 풀기
+### 2. 데이터베이스 생성 및 스키마 적용
+```bash
+# PostgreSQL 접속
+psql -U postgres
 
-1. `problems/` 폴더에서 Day 1부터 시작
+# 데이터베이스 생성
+CREATE DATABASE sql_mastery;
+\c sql_mastery
+
+# 스키마 + 샘플 데이터 한 번에 설정
+\i setup.sql
+```
+
+**또는 개별 실행:**
+```sql
+-- 1. E-commerce 스키마
+\i data/ecommerce/schema.sql
+\i data/ecommerce/sample_data.sql
+
+-- 2. Subscription 스키마
+\i data/subscription/schema.sql
+\i data/subscription/sample_data.sql
+```
+
+### 3. 샘플 데이터 확인
+```sql
+-- 테이블별 레코드 수 확인
+SELECT 'users' AS table_name, COUNT(*) FROM users
+UNION ALL SELECT 'products', COUNT(*) FROM products
+UNION ALL SELECT 'orders', COUNT(*) FROM orders
+UNION ALL SELECT 'order_items', COUNT(*) FROM order_items
+UNION ALL SELECT 'subscriptions', COUNT(*) FROM subscriptions
+UNION ALL SELECT 'events', COUNT(*) FROM events;
+```
+
+### 4. 문제 풀기
+`problems/` 폴더의 Day 1부터 순서대로 학습하세요!
+
+**학습 순서:**
+- **Day 1-10** (기초): GROUP BY, JOIN, 집계 함수
+- **Day 11-25** (중급): Window Function, Self JOIN, 퍼널 분석
+- **Day 26-30** (고급): Recursive CTE, Cohort 분석, 대시보드시작
 2. 비즈니스 맥락 읽기 → 쿼리 작성 → 정답 확인
 3. 최적화 사례도 함께 학습
 
 ---
 
-## 📖 디렉토리 구조
+## 📂 디렉토리 구조
 
 ```
 sql-mastery-30/
 ├── README.md                 # 프로젝트 소개
-├── problems/                 # 30개 SQL 문제
-├── optimization/             # 10개 최적화 사례
-├── interview/                # 5개 면접 가이드
-├── data/                     # 샘플 데이터
+├── setup.sql                 # 전체 환경 설정 스크립트
+├── data/                     # 데이터베이스 스키마 및 샘플 데이터
 │   ├── ecommerce/
+│   │   ├── schema.sql       # E-commerce DB 스키마
+│   │   └── sample_data.sql  # 샘플 데이터 (1000 users, 5000 orders)
 │   └── subscription/
-└── diagrams/                 # ERD, Query Plan
-```
+│       ├── schema.sql       # Subscription App 스키마
+│       └── sample_data.sql  # 샘플 데이터 (500 users, 25000 events)
+├── problems/                 # 30개 SQL 문제
+│   ├── day01.md             # Day 1: 월별 신규 가입자 수
+│   ├── day02.md             # Day 2: 카테고리별 매출 Top 5
+│   ├── ...
+│   ├── day25.md             # Day 25: Self JOIN 상품 추천
+│   ├── day26.md             # Day 26: Recursive CTE 조직도
+│   └── day30.md             # Day 30: 종합 대시보드 KPI
+└── solutions/ (Optional)     # 개인 정답 보관용 폴더
+```       # ERD, Query Plan
 
 ---
 
