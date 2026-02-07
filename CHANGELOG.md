@@ -1,5 +1,56 @@
 # 변경 이력
 
+## 2026-02-07 (3) — Claude Code 설정 업그레이드 (레벨 3 → 4+)
+
+### 완료된 사항
+
+#### Custom Agents 추가 (.claude/agents/)
+- **sql-reviewer.md**: SQL 문제/쿼리/최적화/면접 가이드 품질 검토 전문가 에이전트
+  - 6항목 자동 검토 (SQL 컨벤션, SELECT * 검사, 스키마 CHECK 정합성, 필수 섹션, 비즈니스 맥락, CTE 활용)
+  - Pass/Fail 테이블 + 수정안 출력
+- **optimization-analyst.md**: 쿼리 성능 분석 및 최적화 전략 제안 전문가 에이전트
+  - 4단계 분석 (쿼리 구조, 인덱스 활용, 실행 계획, 플랫폼별 최적화)
+  - Before/After 비교 + 면접 교훈 출력
+
+#### Skills 폴더 추가 (.claude/skills/)
+- **sql-conventions.md**: SQL 작성 컨벤션 상세 가이드 (포맷팅 예시, 안티패턴, Window Function 패턴)
+- **schema-reference.md**: E-commerce + Subscription DB 전체 스키마 (CREATE TABLE, CHECK 제약, 관계도, 샘플 규모)
+  - CLAUDE.md 토큰 절약을 위한 온디맨드 로딩 방식
+
+#### Hooks 강화 (settings.local.json)
+- **PostToolUse 개선**: problems/optimization/interview 디렉토리 파일 수정 시에만 스키마 CHECK 리마인더 (오탐 감소)
+- **PreToolUse 신규**: 파괴적 SQL 명령 (DROP TABLE/DATABASE/INDEX, TRUNCATE, 조건 없는 DELETE) 차단 (exit 2 블로킹)
+- **Notification 신규**: 작업 완료 시 .claude/activity.log에 타임스탬프 기록
+
+#### Permissions 강화
+- `Bash(npm *)` 허용 추가 (웹앱 빌드/테스트용)
+- `mcp__github__list_issues`, `mcp__github__search_issues`, `mcp__github__get_file_contents` 허용 추가
+- `Bash(DROP *)`, `Bash(TRUNCATE *)` 차단 추가
+
+#### 새 Commands 추가 (.claude/commands/)
+- **changelog-update.md**: CHANGELOG.md 자동 업데이트 표준화 (카테고리 분류, 필수 형식)
+- **explain-query.md**: SQL 쿼리 실행계획 5단계 분석 (파싱 → 실행계획 추정 → 병목 진단 → 최적화 제안 → 면접 스크립트)
+
+### 2026년 2월 트렌드 반영
+- **Skills 온디맨드 로딩**: CLAUDE.md 비대화 방지 (Boris Cherny 권장)
+- **Custom Agents**: 작업별 전문 에이전트 분리 (2026 베스트 프랙티스)
+- **PreToolUse 블로킹 훅**: 파괴적 명령 사전 차단 (Hooks 진화 트렌드)
+- **GitHub MCP 권한 확장**: Issues/Search 도구 활용 (MCP 생태계 성장)
+
+### 생성/수정된 파일
+
+| 파일 | 작업 | 설명 |
+|------|------|------|
+| `.claude/agents/sql-reviewer.md` | 신규 | SQL 검토 전문가 에이전트 |
+| `.claude/agents/optimization-analyst.md` | 신규 | 최적화 분석 전문가 에이전트 |
+| `.claude/skills/sql-conventions.md` | 신규 | SQL 컨벤션 온디맨드 가이드 |
+| `.claude/skills/schema-reference.md` | 신규 | DB 스키마 레퍼런스 |
+| `.claude/settings.local.json` | 수정 | Hooks 3종 + Permissions 강화 |
+| `.claude/commands/changelog-update.md` | 신규 | CHANGELOG 업데이트 커맨드 |
+| `.claude/commands/explain-query.md` | 신규 | 쿼리 실행계획 분석 커맨드 |
+
+---
+
 ## 2026-02-07 (2) — 인터랙티브 웹앱 v1.0
 
 ### 완료된 사항 ✅

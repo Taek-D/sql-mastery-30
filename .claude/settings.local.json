@@ -6,8 +6,12 @@
       "Bash(mkdir *)",
       "Bash(psql *)",
       "Bash(sqlite3 *)",
+      "Bash(npm *)",
       "mcp__github__get_me",
       "mcp__github__create_repository",
+      "mcp__github__list_issues",
+      "mcp__github__search_issues",
+      "mcp__github__get_file_contents",
       "WebSearch",
       "mcp__playwright__browser_navigate",
       "mcp__playwright__browser_wait_for",
@@ -20,7 +24,9 @@
     ],
     "deny": [
       "Read(.env*)",
-      "Bash(rm -rf *)"
+      "Bash(rm -rf *)",
+      "Bash(DROP *)",
+      "Bash(TRUNCATE *)"
     ],
     "ask": []
   },
@@ -31,7 +37,29 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.file_path // empty' | grep -qE '\\.(sql|md)$' && echo 'CHECK: SQL/MD file modified - verify schema constraints and conventions' || true"
+            "command": "file_path=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.file_path // empty'); if echo \"$file_path\" | grep -qE '\\.(sql|md)$'; then if echo \"$file_path\" | grep -qE '(problems|optimization|interview)/'; then echo 'REVIEW REQUIRED: Content file modified - verify schema CHECK constraints (user_segment: premium/regular/inactive, orders.status: completed/cancelled/pending, subscriptions.status: active/cancelled/expired)'; fi; fi; exit 0"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cmd=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.command // empty'); if echo \"$cmd\" | grep -qiE 'DROP\\s+(TABLE|DATABASE|INDEX)|TRUNCATE|DELETE\\s+FROM.*WHERE\\s*$'; then echo 'BLOCKED: Destructive SQL command detected. Use explicit confirmation.'; exit 2; fi; exit 0"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"Task completed at $(date '+%Y-%m-%d %H:%M:%S')\" >> \"$CLAUDE_PROJECT_DIR/.claude/activity.log\" 2>/dev/null; exit 0"
           }
         ]
       }
