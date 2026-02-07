@@ -959,24 +959,3 @@ button {
     display: none !important;
   }
 }
-
-.split-pane {
-  flex-direction: column;
-}
-
-.pane-left {
-  width: 100%;
-  min-width: 0;
-  max-height: 30%;
-  border-right: none;
-  border-bottom: 1px solid var(--border);
-}
-
-.pane-right {
-  min-height: 0;
-}
-
-.header-xp {
-  display: none;
-}
-}
