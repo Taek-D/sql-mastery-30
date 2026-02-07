@@ -1,5 +1,89 @@
 # 변경 이력
 
+## 2026-02-07 (2) — 인터랙티브 웹앱 v1.0
+
+### 완료된 사항 ✅
+
+#### Phase 1: 프로젝트 초기화 + 데이터 변환
+- **Vite + React + TypeScript** 프로젝트 생성 (`web/`)
+- **의존성**: sql.js (CDN WASM), @monaco-editor/react, tsx (스크립트용)
+- **PostgreSQL → SQLite 데이터 변환** (`scripts/generateData.ts`)
+  - E-commerce: users 200명, products 50개, orders 1,000건, order_items ~2,500건
+  - Subscription: sub_users 200명, subscriptions 200건, events 5,000건
+  - `SERIAL` → `INTEGER PRIMARY KEY AUTOINCREMENT`, `VARCHAR` → `TEXT`, `DECIMAL` → `REAL`
+- **30개 문제 MD → JSON 자동 변환** (`scripts/convertProblems.ts`)
+  - CRLF 정규화, 제목/난이도/맥락/스키마/질문/힌트/정답/해설 파싱
+  - PostgreSQL → SQLite 구문 변환: `DATE_TRUNC` → `strftime`, `EXTRACT` → `CAST(strftime())`, `INTERVAL` → `date()`, `AGE` → `julianday`, `TO_CHAR` → `strftime` 등
+
+#### Phase 2: 핵심 UI 컴포넌트
+- **Header** (`Header.tsx`): 로고, 레벨 배지 (tier 색상), XP 프로그레스바, 통계 (해결/연속/XP)
+- **Sidebar** (`Sidebar.tsx`): 30개 문제 목록, 난이도별 섹션 (기초/중급/고급), 완료 상태 아이콘 (○/✓/★)
+- **ProblemView** (`ProblemView.tsx`): Split pane (좌=설명, 우=에디터+결과), 힌트 토글 (XP 페널티 안내), 정답/해설 보기
+- **SQLEditor** (`SQLEditor.tsx`): Monaco Editor (VS Code 수준), Ctrl+Enter 실행 단축키
+- **ResultsPanel** (`ResultsPanel.tsx`): 결과 테이블, 점수 배지, 채점 상세 내역, XP 획득 표시
+- **LevelUpModal** (`LevelUpModal.tsx`): 정답 축하 모달 (🏆), 배지 획득 알림 (슬라이드 애니메이션)
+- **global.css**: 다크 테마, CSS 변수, 반응형 (768px), 스크롤바 커스텀
+
+#### Phase 3: SQL 실행 + 채점 엔진
+- **sql.js CDN 로딩** (`initDatabase.ts`): `<script>` 동적 삽입, WASM CDN (v1.12.0)
+- **자동 채점** (`queryValidator.ts`): 4단계 비교 (컬럼 수 20점 + 행 수 20점 + 컬럼명 20점 + 값 40점)
+  - 컬럼 순서 다른 경우 부분 점수 (10점), 정렬 순서 다른 경우 부분 점수 (30점)
+  - 숫자값 fuzzy 비교 (오차 0.01 이내 허용)
+
+#### Phase 4: 게임화 시스템
+- **레벨 시스템** (`gamification.ts`): Bronze I~III → Silver I~III → Gold I~III → Platinum (10단계)
+- **XP 보상**: 기초 100 / 중급 200 / 고급 300, 첫 시도 보너스 +50, 힌트 사용 시 ×0.7
+- **배지 8종**: 첫 쿼리, 다섯 고개, 열정의 10일, 숙련자, 완전 정복, 완벽주의자, 독학 천재, 원샷 원킬
+- **진행 상태** (`useProgress.ts`): localStorage 저장, 연속 학습 streak 추적, 문제별 최고 점수/시도 횟수/코드 보관
+
+#### Phase 5: 배포 설정
+- **GitHub Actions** (`.github/workflows/deploy.yml`): main push 시 자동 빌드 → GitHub Pages 배포
+- **README.md**: 웹앱 데모 링크 (`https://taek-d.github.io/sql-mastery-30/`) 및 소개 섹션 추가
+
+#### 브라우저 테스트 결과
+- Playwright로 실제 브라우저 검증 완료
+- DB 초기화 → 문제 로드 → SQL 실행 → 채점 → XP/레벨/배지 전체 플로우 정상 동작
+- Day 1 정답 쿼리 실행: 100점, +150 XP, "첫 쿼리" 배지 획득 확인
+
+### 생성/수정된 파일
+
+| 파일 | 작업 | 설명 |
+|------|------|------|
+| `web/package.json` | 신규 | React + sql.js + Monaco 의존성 |
+| `web/vite.config.ts` | 신규 | base path, Monaco 코드 스플릿 |
+| `web/index.html` | 수정 | 한국어, 폰트 (Inter, JetBrains Mono), favicon |
+| `web/tsconfig*.json` | 신규 | strict TypeScript 설정 |
+| `web/src/App.tsx` | 수정 | 루트 컴포넌트 (DB + Progress + Layout) |
+| `web/src/main.tsx` | 수정 | 엔트리포인트 |
+| `web/src/vite-env.d.ts` | 신규 | sql.js 타입 선언, .sql?raw 선언 |
+| `web/src/styles/global.css` | 신규 | 전체 스타일 (~500줄) |
+| `web/src/components/*.tsx` | 신규 | UI 컴포넌트 6개 |
+| `web/src/services/*.ts` | 신규 | 채점 + 게임화 로직 |
+| `web/src/hooks/*.ts` | 신규 | DB + Progress 커스텀 훅 |
+| `web/src/database/*.sql` | 신규 | SQLite 호환 스키마+데이터 |
+| `web/src/database/initDatabase.ts` | 신규 | sql.js CDN 초기화 |
+| `web/src/data/problems.json` | 신규 | 30개 문제 JSON (자동 생성) |
+| `web/src/data/problems.ts` | 신규 | 타입 정의 + 데이터 export |
+| `web/scripts/generateData.ts` | 신규 | SQLite INSERT 생성 스크립트 |
+| `web/scripts/convertProblems.ts` | 신규 | MD → JSON 변환 스크립트 |
+| `.github/workflows/deploy.yml` | 신규 | Pages 자동 배포 |
+| `README.md` | 수정 | 웹앱 데모 링크 + 소개 + 디렉토리 구조 |
+
+---
+
+### 다음 단계 (TODO)
+
+#### 즉시 필요: Git 커밋 + GitHub 배포
+1. `web/` 전체 및 변경 파일 git add + commit + push
+2. GitHub 저장소 Settings → Pages → Source: **GitHub Actions** 선택
+3. 배포 완료 후 `https://taek-d.github.io/sql-mastery-30/` 접속 확인
+
+#### 추가 개선 (선택)
+- **Subscription DB 문제 호환**: sub_users 테이블명 prefix 때문에 Day 7, 11, 12, 17, 19, 22, 24, 28 쿼리에서 `users` → `sub_users` 매핑 필요
+- **PostgreSQL 전용 문제 표시**: `generate_series()`, `FILTER()`, `PERCENTILE_CONT()`, `FULL OUTER JOIN` 등 SQLite 미지원 구문이 포함된 고급 문제에 "PostgreSQL 전용" 라벨 + 외부 SQL playground 링크
+- **모바일 반응형 개선**: 사이드바 오버레이, 에디터/결과 탭 전환
+- **성능 최적화**: Monaco Editor lazy loading으로 초기 로딩 속도 개선 (현재 ~1.4MB JS)
+
 ## 2026-02-07
 
 ### BRIDGE Execute (E) 단계 완료 — GitHub 배포

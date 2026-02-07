@@ -1,4 +1,29 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(ls *)",
+      "Bash(mkdir *)",
+      "Bash(psql *)",
+      "Bash(sqlite3 *)",
+      "mcp__github__get_me",
+      "mcp__github__create_repository",
+      "WebSearch",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_run_code",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_close"
+    ],
+    "deny": [
+      "Read(.env*)",
+      "Bash(rm -rf *)"
+    ],
+    "ask": []
+  },
   "hooks": {
     "PostToolUse": [
       {
@@ -11,19 +36,5 @@
         ]
       }
     ]
-  },
-  "permissions": {
-    "allow": [
-      "Bash(git *)",
-      "Bash(ls *)",
-      "Bash(mkdir *)",
-      "Bash(psql *)",
-      "Bash(sqlite3 *)"
-    ],
-    "deny": [
-      "Read(.env*)",
-      "Bash(rm -rf *)"
-    ],
-    "ask": []
   }
 }
