@@ -8,7 +8,7 @@
 각 가입 월별로 M0, M1, M2... 리텐션율을 추적하여 코호트 분석을 수행합니다.
 
 ### 테이블 스키마
-- **users**: user_id, signup_date
+- **sub_users**: user_id, signup_date
 - **events**: event_id, user_id, event_date
 
 ### 질문
@@ -21,7 +21,7 @@ WITH signup_cohorts AS (
     SELECT 
         user_id,
         DATE_TRUNC('month', signup_date) AS cohort_month
-    FROM users
+    FROM sub_users
     WHERE signup_date >= '2025-01-01'
       AND signup_date < '2026-01-01'
 ),

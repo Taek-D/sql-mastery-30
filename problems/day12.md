@@ -8,7 +8,7 @@
 특정 월에 가입한 사용자 중 7일 후, 30일 후에도 활동 중인 비율을 측정합니다.
 
 ### 테이블 스키마
-- **users**: user_id, signup_date
+- **sub_users**: user_id, signup_date
 - **events**: event_id, user_id, event_date
 
 ### 질문
@@ -18,7 +18,7 @@
 ```sql
 WITH jan_cohort AS (
     SELECT user_id, signup_date
-    FROM users
+    FROM sub_users
     WHERE signup_date >= '2025-01-01'
       AND signup_date < '2025-02-01'
 ),

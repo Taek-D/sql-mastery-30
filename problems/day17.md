@@ -8,7 +8,7 @@
 어느 단계에서 이탈이 많은지 파악하여 개선점을 찾습니다.
 
 ### 테이블 스키마
-- **users**: user_id, signup_date
+- **sub_users**: user_id, signup_date
 - **events**: event_id, user_id, event_date, event_type
   - event_type: 'signup', 'product_view', 'add_to_cart', 'checkout', 'purchase'
 
@@ -20,7 +20,7 @@
 ```sql
 WITH jan_users AS (
     SELECT user_id
-    FROM users
+    FROM sub_users
     WHERE signup_date >= '2025-01-01'
       AND signup_date < '2025-02-01'
 ),
