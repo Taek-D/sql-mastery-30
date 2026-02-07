@@ -1,3 +1,4 @@
+import { Menu, ChevronLeft } from 'lucide-react';
 import { getLevelInfo, getXpProgress, getTierColor } from '../services/gamification';
 
 interface HeaderProps {
@@ -16,7 +17,7 @@ export function Header({ xp, totalSolved, streak, sidebarOpen, onToggleSidebar }
   return (
     <header className="header">
       <button className="header-toggle" onClick={onToggleSidebar} title="Toggle sidebar">
-        {sidebarOpen ? '◀' : '▶'}
+        {sidebarOpen ? <ChevronLeft size={20} /> : <Menu size={20} />}
       </button>
 
       <div className="header-logo">

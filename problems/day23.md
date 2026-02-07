@@ -11,6 +11,11 @@
 - **marketing_spend**: channel, date, spend_amount
 - **orders**: order_id, user_id, order_date, total_amount, channel
 
+> [!NOTE]
+> **PostgreSQL 전용**
+> 이 문제는 SQLite에서 지원하지 않는 문법(`FULL OUTER JOIN`)을 사용합니다.
+> 웹 에디터 대신 [SQL Playground](https://www.db-fiddle.com/) 사용을 권장합니다.
+
 ### 질문
 2025년 1월 각 마케팅 채널의 총 광고비, 총 매출, ROAS를 계산하세요.
 ROAS = 매출 / 광고비

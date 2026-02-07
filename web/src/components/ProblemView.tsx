@@ -1,13 +1,16 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, lazy, Suspense } from 'react';
 import type { Problem } from '../data/problems';
 import type { ProblemProgress } from '../hooks/useProgress';
 import type { ValidationResult } from '../services/queryValidator';
 import { validateQuery } from '../services/queryValidator';
 import type { Difficulty, Badge } from '../services/gamification';
-import { SQLEditor } from './SQLEditor';
 import { ResultsPanel } from './ResultsPanel';
 import { LevelUpModal, BadgeNotification } from './LevelUpModal';
 import type { QueryExecResult } from 'sql.js';
+
+const SQLEditor = lazy(() =>
+  import('./SQLEditor').then((module) => ({ default: module.SQLEditor })),
+);
 
 interface ProblemViewProps {
   problem: Problem;
@@ -41,6 +44,7 @@ export function ProblemView({
   const [lastXpGained, setLastXpGained] = useState(0);
   const [activeBadge, setActiveBadge] = useState<Badge | null>(null);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [activeTab, setActiveTab] = useState<'problem' | 'editor'>('problem');
 
   const handleCodeChange = useCallback(
     (newCode: string) => {
@@ -130,8 +134,23 @@ export function ProblemView({
         </div>
       </div>
 
+      <div className="mobile-tabs">
+        <button
+          className={`mobile-tab ${activeTab === 'problem' ? 'active' : ''}`}
+          onClick={() => setActiveTab('problem')}
+        >
+          문제 설명
+        </button>
+        <button
+          className={`mobile-tab ${activeTab === 'editor' ? 'active' : ''}`}
+          onClick={() => setActiveTab('editor')}
+        >
+          SQL 에디터 ({result ? '결과 확인' : '작성'})
+        </button>
+      </div>
+
       <div className="split-pane">
-        <div className="pane-left">
+        <div className={`pane-left ${activeTab === 'editor' ? 'pane-hidden' : ''}`}>
           <div className="problem-description">
             <h3>비즈니스 맥락</h3>
             <p>{problem.context}</p>
@@ -192,8 +211,10 @@ export function ProblemView({
           </div>
         </div>
 
-        <div className="pane-right">
-          <SQLEditor value={code} onChange={handleCodeChange} onRun={handleRun} />
+        <div className={`pane-right ${activeTab === 'problem' ? 'pane-hidden' : ''}`}>
+          <Suspense fallback={<div className="loading-screen" style={{ height: '100%' }}>Loading Editor...</div>}>
+            <SQLEditor value={code} onChange={handleCodeChange} onRun={handleRun} />
+          </Suspense>
           <ResultsPanel
             result={result}
             error={error}

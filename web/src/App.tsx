@@ -66,6 +66,8 @@ export function App() {
         activeProblem={activeProblem}
         onSelectProblem={handleSelectProblem}
         getProblemProgress={getProblemProgress}
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
       />
       <div className="main-content">
         {currentProblem && isReady ? (

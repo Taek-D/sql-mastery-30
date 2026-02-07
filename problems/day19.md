@@ -11,6 +11,11 @@
 - **subscriptions**: subscription_id, user_id, start_date, end_date, status
   - status: 'active', 'cancelled', 'expired'
 
+> [!NOTE]
+> **PostgreSQL 전용**
+> 이 문제는 SQLite에서 지원하지 않는 문법(`FULL OUTER JOIN`)을 사용합니다.
+> 웹 에디터 대신 [SQL Playground](https://www.db-fiddle.com/) 사용을 권장합니다.
+
 ### 질문
 2025년 각 월의 신규 가입자, 해지자, 순증을 계산하세요.
 

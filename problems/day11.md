@@ -10,6 +10,11 @@
 ### 테이블 스키마
 - **events**: event_id, user_id, event_date, event_type
 
+> [!NOTE]
+> **PostgreSQL 전용**
+> 이 문제는 SQLite에서 지원하지 않는 문법(`FILTER`, `generate_series`)을 사용합니다.
+> 웹 에디터 대신 [SQL Playground](https://www.db-fiddle.com/) 사용을 권장합니다.
+
 ### 질문
 2025년 1월 8일부터 1월 31일까지 각 날짜의 7일 Rolling MAU를 계산하세요.
 (각 날짜 기준 최근 7일간 활동한 고유 사용자 수)

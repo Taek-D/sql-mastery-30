@@ -10,6 +10,11 @@
 ### 테이블 스키마
 - **events**: event_id, user_id, event_date
 
+> [!NOTE]
+> **PostgreSQL 전용**
+> 이 문제는 SQLite에서 지원하지 않는 문법(`PERCENTILE_CONT`)을 사용합니다.
+> 웹 에디터 대신 [SQL Playground](https://www.db-fiddle.com/) 사용을 권장합니다.
+
 ### 질문
 2025년 1월 각 날짜의 활성 사용자 수 중앙값을 계산하세요.
 
